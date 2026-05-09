@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VanBrunt &amp; Co. | Implementation Consulting for B2B SaaS</title>
+<meta name="description" content="VanBrunt & Co. brings operator-grade rigor to B2B SaaS implementation functions. Diagnostic-first; root-cause-grounded; senior-sponsor-grade.">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --onyx: #191F25;
+    --graphite: #272E36;
+    --slate: #5B5D62;
+    --steel: #9095A1;
+    --ash: #B1B2B9;
+    --bone: #F0E9E6;
+    --cream-deep: #E9E1DD;
+    --rule: #C9C2BD;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bone);
+    color: var(--graphite);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--onyx); }
+
+  /* ===== LAYOUT CONTAINERS ===== */
+  .container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  section {
+    padding: 120px 0;
+    border-bottom: 0.5px solid var(--rule);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 24px;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--onyx);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  h1 { font-size: 72px; line-height: 1.05; margin-bottom: 32px; }
+  h2 { font-size: 48px; line-height: 1.1; margin-bottom: 32px; }
+  h3 { font-size: 28px; line-height: 1.2; margin-bottom: 16px; }
+
+  p { margin-bottom: 20px; }
+
+  .lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--slate);
+    max-width: 720px;
+    margin-bottom: 24px;
+  }
+
+  /* ===== TOP NAV ===== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--bone);
+    border-bottom: 0.5px solid var(--rule);
+    padding: 20px 0;
+  }
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .wordmark {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.18em;
+    color: var(--onyx);
+    text-transform: uppercase;
+  }
+  .wordmark .amp {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--slate);
+    letter-spacing: 0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover { color: var(--onyx); }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 0 0 160px 0;
+    border-bottom: 0.5px solid var(--rule);
+  }
+  .hero-image {
+    width: 100%;
+    height: 480px;
+    background-color: var(--cream-deep);
+    background-image: url('hero-image.jpg');
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 100px;
+  }
+  .hero h1 {
+    font-weight: 300;
+    font-size: 88px;
+    max-width: 950px;
+  }
+  .hero h1 .accent {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--slate);
+  }
+  .hero .lead {
+    font-size: 26px;
+    max-width: 760px;
+    margin-top: 8px;
+  }
+
+  /* ===== PRACTICE ===== */
+  .practice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .practice-grid p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--graphite);
+    max-width: 640px;
+  }
+
+  /* ===== METHODOLOGY ===== */
+  .methodology h2 { max-width: 760px; }
+  .causes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 64px;
+  }
+  .cause {
+    border-top: 1px solid var(--onyx);
+    padding-top: 32px;
+  }
+  .cause-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 12px;
+  }
+  .cause-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.15;
+    color: var(--onyx);
+    margin-bottom: 20px;
+  }
+  .cause p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--slate);
+    margin-bottom: 0;
+  }
+
+  /* ===== ENGAGEMENTS ===== */
+  .engagements h2 { max-width: 760px; }
+  .offerings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .offering {
+    background-color: var(--cream-deep);
+    padding: 48px 40px;
+    border-left: 2px solid var(--slate);
+  }
+  .offering-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--onyx);
+    margin-bottom: 8px;
+  }
+  .offering-form {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 24px;
+  }
+  .offering p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--graphite);
+    margin-bottom: 24px;
+  }
+  .offering-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--onyx);
+    padding-top: 24px;
+    border-top: 0.5px solid var(--steel);
+  }
+
+  /* ===== OPERATOR ===== */
+  .operator-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .operator p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--graphite);
+    max-width: 640px;
+  }
+  .proof {
+    list-style: none;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--rule);
+  }
+  .proof li {
+    padding: 14px 0;
+    border-bottom: 0.5px solid var(--rule);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--graphite);
+  }
+  .proof li:last-child { border-bottom: none; }
+  .proof li strong { color: var(--onyx); font-weight: 600; }
+
+  /* ===== CONTACT ===== */
+  .contact h2 { max-width: 760px; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 48px;
+  }
+  .contact-grid p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--graphite);
+  }
+  .email-cta {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--onyx);
+    text-decoration: underline;
+    text-decoration-color: var(--steel);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.2s ease;
+  }
+  .email-cta:hover { text-decoration-color: var(--onyx); }
+
+  .signup-card {
+    background-color: var(--cream-deep);
+    padding: 48px 40px;
+    border-left: 2px solid var(--slate);
+  }
+  .signup-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 16px;
+  }
+  .signup-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.25;
+    color: var(--onyx);
+    margin-bottom: 12px;
+  }
+  .signup-detail {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--slate);
+    margin-bottom: 24px;
+  }
+  .signup-card form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .signup-card input {
+    flex: 1;
+    background-color: transparent;
+    border: 1px solid var(--steel);
+    padding: 12px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--onyx);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .signup-card input:focus { border-color: var(--onyx); }
+  .signup-card button {
+    background-color: var(--onyx);
+    color: var(--bone);
+    border: none;
+    padding: 12px 24px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+  }
+  .signup-card button:hover { background-color: var(--graphite); }
+  .signup-fallback {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--steel);
+    margin: 0;
+    padding-top: 16px;
+    border-top: 0.5px solid var(--steel);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 64px 0 48px 0;
+    border-top: 0.5px solid var(--rule);
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    section { padding: 80px 0; }
+
+    .nav-links { display: none; }
+
+    .hero { padding: 120px 0 100px 0; }
+    .hero h1 { font-size: 56px; }
+    .hero .lead { font-size: 20px; }
+
+    h1 { font-size: 56px; }
+    h2 { font-size: 36px; }
+    h3 { font-size: 24px; }
+    .lead { font-size: 20px; }
+
+    .practice-grid,
+    .operator-grid,
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .causes { grid-template-columns: 1fr; gap: 48px; }
+    .offerings { grid-template-columns: 1fr; gap: 24px; }
+
+    .offering, .signup-card { padding: 36px 28px; }
+    .signup-card form { flex-direction: column; gap: 12px; }
+    .signup-card button { width: 100%; }
+
+    .footer-inner {
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+    .hero h1 { font-size: 44px; }
+    h1 { font-size: 44px; }
+    h2 { font-size: 32px; }
+    .lead { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="wordmark">VanBrunt <span class="amp">&amp;</span> Co.</a>
+    <ul class="nav-links">
+      <li><a href="#practice">Practice</a></li>
+      <li><a href="#methodology">Methodology</a></li>
+      <li><a href="#engagements">Engagements</a></li>
+      <li><a href="#operator">Operator</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-image" role="img" aria-label="VanBrunt & Co. brand image"></div>
+  <div class="container">
+    <h1>Operator-grade rigor for B2B SaaS <span class="accent">implementation.</span></h1>
+    <p class="lead">An implementation consulting practice for mid-market B2B SaaS companies whose implementation function has stalled. Diagnostic-first. Root-cause-grounded. Senior-sponsor-grade.</p>
+  </div>
+</section>
+
+<!-- ============ THE PRACTICE ============ -->
+<section id="practice">
+  <div class="container">
+    <div class="eyebrow">The Practice</div>
+    <h2>Implementation as a discipline, not a checklist.</h2>
+    <div class="practice-grid">
+      <div></div>
+      <div>
+        <p>Most B2B SaaS treats implementation as a checklist: a series of tasks to complete before the customer is "live." That treatment is exactly why most implementation functions stall. Too lean to absorb complexity, too improvised to scale, too downstream of the sale to get the senior attention they need.</p>
+        <p>VanBrunt &amp; Co. brings operator-grade rigor to that function. The work is built from running real implementation programs, not from consulting frameworks. The senior leader engaged is the senior leader doing the work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ METHODOLOGY ============ -->
+<section class="methodology" id="methodology">
+  <div class="container">
+    <div class="eyebrow">The Methodology</div>
+    <h2>Most implementation friction traces to one of three root causes.</h2>
+    <p class="lead">You can't fix what you haven't diagnosed. The three-cause framework is how we identify which structural pattern is dominant in your function, before recommending the fix.</p>
+
+    <div class="causes">
+      <div class="cause">
+        <div class="cause-num">Cause One</div>
+        <div class="cause-name">Methodology Fragmentation</div>
+        <p>Each implementation manager runs their own playbook. There is no shared, codified discipline. Outcomes depend on the individual, not the system.</p>
+      </div>
+      <div class="cause">
+        <div class="cause-num">Cause Two</div>
+        <div class="cause-name">Authority Gap</div>
+        <p>Implementation owns delivery without owning the upstream and downstream functions that determine whether delivery is possible. Variance lands on the team without authority to address it.</p>
+      </div>
+      <div class="cause">
+        <div class="cause-num">Cause Three</div>
+        <div class="cause-name">Closure Gap</div>
+        <p>The team identifies issues retrospectively, but cross-functional engagement in solutioning is absent. Findings document what is broken without resolving it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENGAGEMENTS ============ -->
+<section class="engagements" id="engagements">
+  <div class="container">
+    <div class="eyebrow">Engagements</div>
+    <h2>Three discrete units, each sized to the moment.</h2>
+    <p class="lead">Audit, Sprint, Retainer. Fixed scope. Fixed price. No daily rates. No expanding scope. No surprise invoices.</p>
+
+    <div class="offerings">
+      <div class="offering">
+        <div class="offering-name">The Audit</div>
+        <div class="offering-form">5 Days &nbsp;&middot;&nbsp; Fixed</div>
+        <p>A 5-day diagnostic engagement. Produces a 15 to 25 page written assessment with prioritized recommendations and a 30, 60, 90-day sequencing plan.</p>
+        <div class="offering-price">$3,500 fixed price</div>
+      </div>
+      <div class="offering">
+        <div class="offering-name">The Sprint</div>
+        <div class="offering-form">2 to 4 Weeks &nbsp;&middot;&nbsp; Fixed</div>
+        <p>Operator-grade execution of the top recommendations from an Audit. The senior leader engaged is the senior leader running the work, not handing it off.</p>
+        <div class="offering-price">$9,500 to $15,500 by variant</div>
+      </div>
+      <div class="offering">
+        <div class="offering-name">The Retainer</div>
+        <div class="offering-form">3 Tiers &nbsp;&middot;&nbsp; Monthly</div>
+        <p>Fractional senior leadership for an implementation function where a full-time hire is not yet warranted. Light, Standard, and Heavy tiers available.</p>
+        <div class="offering-price">$5,000 to $12,000 per month</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPERATOR ============ -->
+<section id="operator">
+  <div class="container">
+    <div class="eyebrow">The Operator</div>
+    <h2>Built from operator experience, not consulting frameworks.</h2>
+    <div class="operator-grid">
+      <div></div>
+      <div class="operator">
+        <p>The practice is led by Matt VanBrunt, an operator with more than a decade running B2B SaaS implementation programs. First at PlanSource, where he built the carrier-agnostic 834 EDI template that became the company's standard. Then at Collective Health, where he led several of the largest and most complex enterprise implementations the company shipped, plus the most broad-reaching enterprise implementation program in the company's history.</p>
+        <p>The methodology is built from that work, not borrowed from consulting frameworks. The senior leader you engage is the senior leader doing the work.</p>
+
+        <ul class="proof">
+          <li><strong>2025 Golden Gregg Award</strong> for Company Impact, Collective Health</li>
+          <li>Two simultaneous <strong>Values Award</strong> nominations: Dare to Solve Hard Problems and Exemplary Manager</li>
+          <li>Four cycles of performance reviews described as <strong>the benchmark on the team</strong></li>
+          <li>Led enterprise implementations recognized internally as the <strong>most operationally effective go-lives to date</strong></li>
+          <li>Led the <strong>most broad-reaching enterprise implementation program</strong> in the company's history</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="eyebrow">Contact</div>
+    <h2>Introductions welcome.</h2>
+    <p class="lead">Reach out about implementation challenges you're seeing, or to begin a conversation about a future engagement.</p>
+
+    <div class="contact-grid">
+      <div>
+        <p>The practice is small by design. Every conversation is held by the senior operator. There is no junior associate triage; if you reach out, Matt reads the message.</p>
+        <p style="margin-top: 24px;"><a href="mailto:matt@vanbruntandco.com" class="email-cta">matt@vanbruntandco.com</a></p>
+      </div>
+
+      <div class="signup-card">
+        <div class="signup-eyebrow">Stay Informed</div>
+        <h3 class="signup-title">Be notified when the practice opens for engagements.</h3>
+        <p class="signup-detail">A single note when the practice is ready to accept engagements. No newsletter. No ongoing communications.</p>
+        <form data-members-form>
+          <input data-members-email type="email" name="email" placeholder="Email address" required />
+          <button type="submit">Notify Me</button>
+        </form>
+        <p class="signup-fallback"><em>Alternatively, drop a Ghost Signup card here when editing in the Ghost admin if you'd prefer to use the native Ghost editor card. The data-members-form pattern above is theme-level HTML that connects to the Ghost Members API.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="wordmark">VanBrunt <span class="amp">&amp;</span> Co.</div>
+    <div>vanbruntandco.com</div>
+    <div>&copy; 2026 VanBrunt &amp; Co.</div>
+  </div>
+</footer>
+
+</body>
+</html>
