@@ -373,6 +373,23 @@
     white-space: nowrap;
   }
   .signup-card button:hover { background-color: var(--graphite); }
+  .signup-card .signup-button {
+    display: inline-block;
+    background-color: var(--onyx);
+    color: var(--bone);
+    border: none;
+    padding: 12px 24px;
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .signup-card .signup-button:hover { background-color: var(--graphite); }
   .signup-fallback {
     font-size: 11px;
     line-height: 1.5;
@@ -440,6 +457,7 @@
     .lead { font-size: 18px; }
   }
 </style>
+<script defer src="https://cdn.jsdelivr.net/ghost/portal@~2.68/umd/portal.min.js" data-i18n="true" data-ghost="https://blog.vanbruntandco.com/" data-key="c33404d65002b377f9af2373e5" data-api="https://blog.vanbruntandco.com/ghost/api/content/" data-locale="en" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -568,8 +586,19 @@
     <h2>Introductions welcome.</h2>
     <p class="lead">Reach out about implementation challenges you're seeing, or to begin a conversation about a future engagement.</p>
 
-    <p>The practice is small by design. Every conversation is held by the senior operator. There is no junior associate triage; if you reach out, Matt reads the message.</p>
-    <p style="margin-top: 24px;"><a href="mailto:matt@vanbruntandco.com" class="email-cta">matt@vanbruntandco.com</a></p>
+    <div class="contact-grid">
+      <div>
+        <p>The practice is small by design. Every conversation is held by the senior operator. There is no junior associate triage; if you reach out, Matt reads the message.</p>
+        <p style="margin-top: 24px;"><a href="mailto:matt@vanbruntandco.com" class="email-cta">matt@vanbruntandco.com</a></p>
+      </div>
+
+      <div class="signup-card">
+        <div class="signup-eyebrow">Stay Informed</div>
+        <h3 class="signup-title">Be notified when the practice opens for engagements.</h3>
+        <p class="signup-detail">A single note when the practice is ready to accept engagements. No newsletter. No ongoing communications.</p>
+        <a href="#/portal/signup/free" data-portal="signup/free" class="signup-button">Notify Me</a>
+      </div>
+    </div>
   </div>
 </section>
 
